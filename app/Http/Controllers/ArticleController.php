@@ -34,7 +34,7 @@ class ArticleController extends Controller
         // Если будут ошибки, то возникнет исключение
         // Иначе возвращаются данные формы
         $data = $this->validate($request, [
-            'name' => 'required|unique:articles',
+            'title' => 'required|unique:articles',
             'body' => 'required|min:10',
         ]);
 
@@ -46,5 +46,23 @@ class ArticleController extends Controller
 
         // Редирект на указанный маршрут
         return redirect('articles')->with('status', 'Article was successfully added!');
+    }
+
+    public function edit($id)
+    {
+        $article = Article::findOrFail($id);
+        return view('article.edit', compact('article'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $article = Article::findOrFail($id);
+        $data = $this->validate($request, [
+            'title' => 'required|unique:articles, name,' . $article->id,
+            'body' => 'required|min:100',
+        ]);
+        $article->fill($data);
+        $article->save();
+        return redirect('articles')->with('status', 'Article is updated!');
     }
 }
