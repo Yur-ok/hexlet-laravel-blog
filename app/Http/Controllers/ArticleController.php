@@ -33,10 +33,13 @@ class ArticleController extends Controller
         // Проверка введённых данных
         // Если будут ошибки, то возникнет исключение
         // Иначе возвращаются данные формы
-        $data = $this->validate($request, [
-            'title' => 'required|unique:articles',
-            'body' => 'required|min:10',
-        ]);
+        $data = $this->validate(
+            $request,
+            [
+                'title' => 'required|unique:articles',
+                'body' => 'required|min:10',
+            ]
+        );
 
         $article = new Article();
         // Заполнение статьи данными из формы
@@ -57,12 +60,28 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $article = Article::findOrFail($id);
-        $data = $this->validate($request, [
-            'title' => 'required|unique:articles, name,' . $article->id,
-            'body' => 'required|min:100',
-        ]);
+        $data = $this->validate(
+            $request,
+            [
+                'title' => 'required|unique:articles, name,' . $article->id,
+                'body' => 'required|min:100',
+            ]
+        );
         $article->fill($data);
         $article->save();
-        return redirect('articles')->with('status', 'Article is updated!');
+        return redirect()
+            ->route('articles.update')
+            ->with('status', 'Article is updated!');
+    }
+
+    public function destroy($id)
+    {
+        $article = Article::findOrFail($id);
+        if ($article) {
+            $article->delete();
+        }
+        return redirect()
+            ->route('articles.index')
+            ->with('status', 'Article was successfully delete!');
     }
 }
