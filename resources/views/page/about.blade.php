@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('header', 'О блоге')
+@section('header', 'О проекте')
 
 @section('content')
-    <p>Эксперименты с Laravel на Хекслете</p>
+    <h3>Данный проект ялвяет собой пример классического CRUD приложения.</h3>
+    <p>Созданный специально для компании Talent Online.</p>
 @endsection

@@ -17,7 +17,8 @@
               data-method="delete" class="fa fa-remove"
               rel="nofollow">
                 Delete
-            </a></h5>
+            </a>
+        </h6>
     @endforeach
     <hr>
     {{ $articles->links() }}
